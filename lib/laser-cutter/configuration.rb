@@ -8,10 +8,10 @@ module Laser
     class ZeroValueNotAllowed < MissingOption; end
 
     class UnitsConverter
-      def self.mm2in value
+      def self.mm2in(value)
         0.039370079 * value
       end
-      def self.in2mm value
+      def self.in2mm(value)
         25.4 * value
       end
     end
@@ -47,10 +47,10 @@ module Laser
         end
         self.merge!(DEFAULTS)
         self.merge!(options)
-        if self['size'] && self['size'] =~ SIZE_REGEXP
-          dim, self['thickness'], self['notch'] = self['size'].split('/')
+        if self['box'] && self['box'] =~ SIZE_REGEXP
+          dim, self['thickness'], self['notch'] = self['box'].split('/')
           self['width'], self['height'], self['depth'] = dim.split('x')
-          delete('size')
+          delete('box')
         end
         FLOATS.each do |k|
           self[k] = self[k].to_f if (self[k] && self[k].is_a?(String))
